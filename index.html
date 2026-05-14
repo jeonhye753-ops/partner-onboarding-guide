@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PART 3 — 파트너가 하는 일</title>
+<style>
+:root {
+  --orange: #FF6600;
+  --orange-d: #D95C00;
+  --orange-l: #FFF3E8;
+  --orange-m: #FFD9B3;
+  --beige: #FAF9F6;
+  --beige-d: #F5F0EB;
+  --dark: #1A1A1A;
+  --mid: #555555;
+  --gray: #888888;
+  --line: #E8E0D8;
+  --white: #FFFFFF;
+  --red: #D94F2B;
+  --red-l: #FFF5F5;
+  --red-b: #FFCCCC;
+  --green: #4CAF50;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:var(--beige);color:var(--dark);line-height:1.6;font-size:15px}
+
+/* Header */
+.hd{background:var(--orange);color:#fff;padding:18px 28px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.hd-inner{max-width:900px;margin:0 auto;display:flex;align-items:baseline;gap:14px}
+.hd-logo{font-size:10px;opacity:.65;letter-spacing:2px;flex-shrink:0}
+.hd-title{font-size:17px;font-weight:700}
+.hd-sub{font-size:12px;opacity:.7;margin-left:auto;white-space:nowrap}
+
+/* Timeline nav */
+.tnav{background:var(--beige);border-bottom:1px solid var(--line);padding:12px 28px;position:sticky;top:57px;z-index:99;overflow-x:auto;scrollbar-width:none}
+.tnav::-webkit-scrollbar{display:none}
+.tnav-inner{max-width:900px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap}
+.tb{background:#fff;border:1.5px solid var(--line);border-radius:8px;color:var(--dark);padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .2s;flex-shrink:0}
+.tb:hover{border-color:var(--orange);color:var(--orange)}
+.tb.on{background:var(--orange);border-color:var(--orange);color:#fff}
+
+/* Main */
+.wrap{max-width:900px;margin:0 auto;padding:32px 28px 80px}
+
+/* Sections */
+.sec{display:none}
+.sec.on{display:block}
+
+/* Section title */
+.stitle{font-size:22px;font-weight:700;margin-bottom:22px;padding-bottom:10px;border-bottom:2px solid var(--orange)}
+.slabel{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:.5px;margin-bottom:4px}
+
+/* Cards */
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:12px}
+.card-o{background:var(--orange-l);border:2px solid var(--orange)}
+.card-r{background:var(--red-l);border:1px solid var(--red-b)}
+.ct{font-size:14px;font-weight:700;margin-bottom:7px;color:var(--dark)}
+.ct-o{color:var(--orange)}
+.ct-r{color:var(--red)}
+.cb{font-size:13px;color:var(--mid);line-height:1.75}
+
+/* Num list */
+.nl{list-style:none}
+.ni{display:flex;align-items:flex-start;gap:13px;padding:15px 18px;background:#fff;border:1px solid var(--line);border-radius:10px;margin-bottom:9px}
+.nb{width:32px;height:32px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:1px}
+.nt{font-size:14px;font-weight:700;margin-bottom:3px}
+.nd{font-size:13px;color:var(--mid);line-height:1.65}
+
+/* Grid 2/3 */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:600px){.g2,.g3{grid-template-columns:1fr}}
+
+/* Column card with header */
+.cc{border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.cc-hd{padding:11px 16px;font-size:13px;font-weight:700;color:#fff}
+.cc-bd{background:#fff;padding:16px;font-size:13px;color:var(--mid);line-height:1.8}
+
+/* Bar card */
+.bc{border-left:4px solid var(--orange);padding:13px 17px;background:#fff;border-radius:0 10px 10px 0;margin-bottom:9px}
+.bt{font-size:14px;font-weight:700;margin-bottom:4px}
+.bd{font-size:13px;color:var(--mid);line-height:1.65}
+
+/* Info row */
+.ir{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:#fff;border:1px solid var(--line);border-radius:8px;margin-bottom:8px}
+.il{font-weight:700;color:var(--orange);white-space:nowrap;min-width:110px;font-size:13px}
+.iv{color:var(--mid);line-height:1.6;font-size:13px}
+
+/* Alert */
+.al{padding:13px 17px;border-radius:8px;font-size:13px;margin-bottom:12px;line-height:1.65}
+.al-o{background:var(--orange-l);border:1px solid var(--orange-m);color:#7A3000}
+.al-r{background:var(--red-l);border:1px solid var(--red-b);color:#7A1A00}
+.al-g{background:#E8F5E9;border:1px solid #C8E6C9;color:#1B5E20}
+
+/* Table */
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:14px}
+.tbl th{background:var(--orange);color:#fff;padding:11px 14px;text-align:left;font-weight:700}
+.tbl td{padding:11px 14px;border-bottom:1px solid var(--line);background:#fff}
+.tbl tr:last-child td{border-bottom:none}
+.tbl .rh{font-weight:700;background:var(--beige-d);font-size:13px}
+
+/* Stat */
+.stat{text-align:center;padding:20px;background:#fff;border:1px solid var(--line);border-radius:10px}
+.stat-n{font-size:30px;font-weight:700;color:var(--orange)}
+.stat-l{font-size:12px;color:var(--mid);margin-top:3px}
+
+/* Timeline boxes */
+.tlbox{display:flex;gap:5px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;align-items:stretch}
+.tlb-item{flex:1;min-width:100px;background:var(--beige-d);border-radius:8px;padding:14px 10px;text-align:center;font-size:12px}
+.tlb-item.hi{background:var(--orange);color:#fff}
+.tlb-item .tlb-label{font-weight:700;margin-bottom:3px}
+.tlb-item .tlb-sub{font-size:11px;color:var(--gray);opacity:.9}
+.tlb-item.hi .tlb-sub{color:rgba(255,255,255,.75);opacity:1}
+.tl-arrow{display:flex;align-items:center;color:var(--gray);font-size:13px;flex-shrink:0}
+
+/* Cycle flow */
+.cyc{margin-bottom:12px}
+.cyc-title{font-size:13px;font-weight:700;color:var(--mid);margin-bottom:8px}
+.cyc-flow{display:flex;gap:5px;overflow-x:auto;padding-bottom:4px;align-items:center}
+.cyc-box{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;text-align:center;font-size:12px;min-width:90px;flex-shrink:0}
+.cyc-box.hi{background:var(--orange);color:#fff;border-color:var(--orange)}
+.cyc-box.hi2{background:var(--orange-l);border:1px solid var(--orange)}
+.cyc-box .cb-t{font-weight:700;margin-bottom:2px;font-size:11px}
+.cyc-box .cb-s{font-size:10px;color:var(--gray)}
+.cyc-box.hi .cb-s{color:rgba(255,255,255,.75)}
+.cyc-arr{color:var(--gray);font-size:13px;flex-shrink:0}
+
+/* Link */
+a.lk{color:var(--orange);font-weight:700;text-decoration:none}
+a.lk:hover{text-decoration:underline}
+
+/* Divider */
+.div{height:1px;background:var(--line);margin:24px 0}
+
+/* Badge */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.bg-g{background:#E8F5E9;color:#2E7D32}
+.bg-r{background:#FFEBEE;color:#C62828}
+
+footer{text-align:center;padding:24px;color:var(--gray);font-size:11px;border-top:1px solid var(--line);margin-top:40px}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="hd-inner">
+    <span class="hd-logo">TREVARI</span>
+    <span class="hd-title">PART 3 — 파트너가 하는 일</span>
+    <span class="hd-sub">어디서든 파트너 운영 가이드</span>
+  </div>
+</header>
+
+<nav class="tnav">
+  <div class="tnav-inner">
+    <button class="tb on" onclick="go('s0',this)">전체 흐름</button>
+    <button class="tb" onclick="go('s1',this)">모객기간</button>
+    <button class="tb" onclick="go('s2',this)">D-9 확정</button>
+    <button class="tb" onclick="go('s3',this)">D-9 시작</button>
+    <button class="tb" onclick="go('s4',this)">D-1</button>
+    <button class="tb" onclick="go('s5',this)">D-DAY</button>
+    <button class="tb" onclick="go('s6',this)">모임 후</button>
+    <div style="width:100%;height:0;"></div>
+    <button class="tb" onclick="go('s7',this)">취소·변경</button>
+    <button class="tb" onclick="go('s8',this)">멤버 문의</button>
+    <button class="tb" onclick="go('s9',this)">놀러가기</button>
+    <button class="tb" onclick="go('s10',this)">활동비 정산</button>
+    <button class="tb" onclick="go('s11',this)">3가지 채널</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- 전체 흐름 -->
+<div id="s0" class="sec on">
+  <div class="stitle">타임라인 별 모임 프로세스</div>
+
+  <div class="tlbox">
+    <div class="tlb-item"><div class="tlb-label">모객<br>기간</div><div class="tlb-sub">레퍼럴 쿠폰</div></div>
+    <div class="tl-arrow">→</div>
+    <div class="tlb-item"><div class="tlb-label">D-9<br>확정</div><div class="tlb-sub">첫모임 결정</div></div>
+    <div class="tl-arrow">→</div>
+    <div class="tlb-item"><div class="tlb-label">D-9<br>시작</div><div class="tlb-sub">단톡방 초대</div></div>
+    <div class="tl-arrow">→</div>
+    <div class="tlb-item"><div class="tlb-label">D-1</div><div class="tlb-sub">발제문 제출</div></div>
+    <div class="tl-arrow">→</div>
+    <div class="tlb-item hi"><div class="tlb-label">D-DAY</div><div class="tlb-sub">모임 진행</div></div>
+    <div class="tl-arrow">→</div>
+    <div class="tlb-item"><div class="tlb-label">모임<br>후</div><div class="tlb-sub">피드백 제출</div></div>
+  </div>
+
+  <div class="al al-o">🔄 D-9 시작 ~ 모임 후 사이클을 <strong>매 모임마다 반복</strong>합니다</div>
+
+  <div class="div"></div>
+  <div class="stitle" style="font-size:17px;">내 클럽은 어떤 사이클로 돌아가나요?</div>
+
+  <div class="card card-o" style="margin-bottom:10px;font-size:13px;color:var(--dark);">
+    <strong>매 모임 공통 업무:</strong> 독후감 독려 · 발제문 공유 · 장소 안내 · 출석 체크 · 피드백(후기) 독려
+  </div>
+
+  <div class="cyc">
+    <div class="cyc-title">시즌제 (4개월 뒤 종료)</div>
+    <div class="cyc-flow">
+      <div class="cyc-box hi"><div class="cb-t">1회차</div><div class="cb-s">첫모임 특별 업무</div></div>
+      <div class="cyc-arr">→</div>
+      <div class="cyc-box"><div class="cb-t">2회차</div><div class="cb-s">공통 업무 반복</div></div>
+      <div class="cyc-arr">→</div>
+      <div class="cyc-box"><div class="cb-t">3회차</div><div class="cb-s">공통 업무 반복<br>다음 시즌 진행 결정</div></div>
+      <div class="cyc-arr">→</div>
+      <div class="cyc-box hi2"><div class="cb-t">4회차</div><div class="cb-s">시즌 마무리</div></div>
+    </div>
+  </div>
+
+  <div class="cyc">
+    <div class="cyc-title">상시가입 (매달 진행)</div>
+    <div class="cyc-flow">
+      <div class="cyc-box hi"><div class="cb-t">1회차</div><div class="cb-s">첫모임 특별 업무</div></div>
+      <div class="cyc-arr">→</div>
+      <div class="cyc-box"><div class="cb-t">2회차</div><div class="cb-s">공통 업무 반복</div></div>
+      <div class="cyc-arr">→</div>
+      <div class="cyc-box"><div class="cb-t">3회차</div><div class="cb-s">공통 업무 반복</div></div>
+      <div class="cyc-arr">→</div>
+      <div class="cyc-box"><div class="cb-t">4회차</div><div class="cb-s">공통 업무 반복</div></div>
+      <div class="cyc-arr">→</div>
+      <div class="cyc-box hi"><div class="cb-t">…</div><div class="cb-s">매달 진행</div></div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+  <div class="stitle" style="font-size:17px;">시즌제 vs 상시가입 — 내 클럽에 해당하는 내용을 확인하세요</div>
+  <table class="tbl">
+    <thead><tr><th>항목</th><th>시즌제</th><th>상시가입</th></tr></thead>
+    <tbody>
+      <tr><td class="rh">모집 기간</td><td>첫모임 D-2까지 마감</td><td>항상 열려 있음 (매달 자동 생성)</td></tr>
+      <tr><td class="rh">새 멤버 유입</td><td>없음</td><td>매달 신규 멤버 유입 가능</td></tr>
+      <tr><td class="rh">상세 페이지</td><td>모집 종료 후 미노출</td><td>계속 노출 (판매 중인 일정 표시)</td></tr>
+      <tr><td class="rh">멤버 연장 시점</td><td>4회차 D-7 ~ 다음 시즌 모객 오픈 13:00까지</td><td>4번째 모임 D-7 ~ 5번째 모임 D-7 까지</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 모객기간 -->
+<div id="s1" class="sec">
+  <div class="slabel">[모객기간]</div>
+  <div class="stitle">레퍼럴 쿠폰을 활용하세요</div>
+
+  <div class="card card-o" style="margin-bottom:14px;">
+    <div class="ct ct-o">레퍼럴 쿠폰</div>
+    <div class="cb">30,000원 할인 쿠폰 2장 — 최초 트레바리 설문지 안내 메일에 포함되어 전달됩니다</div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="ct"><span class="badge bg-g">✅ 이렇게 하세요</span></div>
+      <div class="cb">지인에게 1:1로 직접 전달<br>"같이 해볼래? 3만원 할인 돼"</div>
+    </div>
+    <div class="card card-r">
+      <div class="ct"><span class="badge bg-r">✗ 이건 안 돼요</span></div>
+      <div class="cb">SNS · 오픈채팅 등<br>불특정 다수에게 공개 노출</div>
+    </div>
+  </div>
+</div>
+
+<!-- D-9 확정 -->
+<div id="s2" class="sec">
+  <div class="slabel">[D-9 · 확정 또는 연기]</div>
+  <div class="stitle">트레바리에서 파트너에게 안내해 드립니다</div>
+
+  <div class="g2">
+    <div class="card card-o">
+      <div class="ct ct-o">✅ 첫모임 확정</div>
+      <div class="cb">
+        <strong>현원 3~4명 이상</strong><br>
+        → 상시가입 클럽으로 오픈<br><br>
+        <strong>현원 9~10명 이상, 정원과 같을 때</strong><br>
+        → 시즌제 클럽으로 오픈<br><br>
+        파트너는 트레바리로부터 확정 안내를 받은 후<br>
+        다음 단계를 진행합니다
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">⏳ 연기 또는 재논의</div>
+      <div class="cb">
+        <strong>현원 부족</strong><br><br>
+        1회 연기 → 트레바리가 안내 후 진행<br>
+        2회 이상 → 파트너와 함께 기획 변경 등 논의 진행<br><br>
+        파트너는 트레바리로부터 안내를 받고<br>
+        변경된 일정을 확인합니다
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- D-9 시작 -->
+<div id="s3" class="sec">
+  <div class="slabel">[D-9 · 시즌 시작]</div>
+  <div class="stitle">단톡방 개설부터 첫모임 공지까지</div>
+
+  <ul class="nl">
+    <li class="ni">
+      <div class="nb">1</div>
+      <div>
+        <div class="nt">단톡방에 멤버 초대</div>
+        <div class="nd">🚨 트레바리가 단톡방 개설 + 파트너가 멤버 초대 (D-6까지)</div>
+      </div>
+    </li>
+    <li class="ni">
+      <div class="nb">2</div>
+      <div>
+        <div class="nt">웰컴 공지 보내기</div>
+        <div class="nd">웰컴 인사 + 첫모임 일정 · 장소 · 읽을 책 안내<br>
+        🚨 독후감 작성 꼭 독려해 주세요! (1인 이하로 독후감 작성 시 모임 취소)</div>
+      </div>
+    </li>
+    <li class="ni">
+      <div class="nb">3</div>
+      <div>
+        <div class="nt">키트 수령 확인</div>
+        <div class="nd">D-3까지 배송 도착 확인 / 부족하면 팟캐스트(카카오 채널)에 문의</div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- D-1 -->
+<div id="s4" class="sec">
+  <div class="slabel">[D-1 · 모임 전날]</div>
+  <div class="stitle">발제문과 장소 안내를 준비합니다</div>
+
+  <div class="card card-o" style="margin-bottom:12px;">
+    <div class="ct ct-o">발제문 작성 & 제출</div>
+    <div class="cb">
+      발제문 완성 → 파트너 페이지에 제출 → 단톡방에 링크 또는 PDF파일로 공유<br><br>
+      <em>"여러분, 내일 모임 발제문 올렸어요! 미리 읽어오시면 더 풍부한 대화가 될 거예요 :)"</em>
+    </div>
+  </div>
+
+  <div class="bc">
+    <div class="bt">장소 최종 안내</div>
+    <div class="bd">🚨 단톡방에 모임 장소 주소 + 오시는 방법을 다시 한번 정확하게 안내해 주세요.</div>
+  </div>
+</div>
+
+<!-- D-DAY -->
+<div id="s5" class="sec">
+  <div class="slabel">[D-DAY · 모임 당일]</div>
+  <div class="stitle">기다리던 모임날 입니다!</div>
+
+  <ul class="nl">
+    <li class="ni">
+      <div class="nb">1</div>
+      <div>
+        <div class="nt">출석 체크</div>
+        <div class="nd">파트너 페이지 출석탭에서 체크 (필수는 아닙니다!)</div>
+      </div>
+    </li>
+    <li class="ni">
+      <div class="nb">2</div>
+      <div>
+        <div class="nt">모임 진행</div>
+        <div class="nd">발제 → 토론 → 발언권 배분 (퍼실리테이터 역할) / 쉬는 시간 번추위 지정 및 뒷풀이 논의</div>
+      </div>
+    </li>
+    <li class="ni">
+      <div class="nb">3</div>
+      <div>
+        <div class="nt">마무리 발언은 필수!</div>
+        <div class="nd">"오늘 가장 기억에 남는 이야기는?" — 선택이 아닌 필수, 모임에서 얻어간 것을 멤버 스스로 정리하는 순간입니다</div>
+      </div>
+    </li>
+    <li class="ni">
+      <div class="nb">4</div>
+      <div>
+        <div class="nt">다음 모임 이야기 나누기</div>
+        <div class="nd">다음 모임 일정 + 읽을 책 미리 공유</div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- 모임 후 -->
+<div id="s6" class="sec">
+  <div class="slabel">[모임 후]</div>
+  <div class="stitle">아무리도 모임 운영의 일부입니다</div>
+
+  <ul class="nl">
+    <li class="ni">
+      <div class="nb">1</div>
+      <div>
+        <div class="nt">파트너 피드백 제출</div>
+        <div class="nd">모임 종료 후 트레바리가 문자를 통해 이번 모임 피드백 링크 전달 &gt; 작성</div>
+      </div>
+    </li>
+    <li class="ni">
+      <div class="nb">2</div>
+      <div>
+        <div class="nt">멤버 피드백 독려</div>
+        <div class="nd">모임 종료 후 트레바리가 알림톡으로 이번 모임 피드백 링크 전달<br>"피드백 남겨주시면 다음 모임에 반영할게요 :)"</div>
+      </div>
+    </li>
+    <li class="ni">
+      <div class="nb">3</div>
+      <div>
+        <div class="nt">다음 발제 지원받기</div>
+        <div class="nd">다음 모임 발제는 파트너 or 멤버 돌아가며 진행 가능 / 단톡방에서 지원자 모집 가능</div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- 취소·변경 -->
+<div id="s7" class="sec">
+  <div class="stitle">이런 상황엔 이렇게 대응하세요!</div>
+
+  <div class="g2">
+    <div class="card card-r">
+      <div class="ct ct-r">모임 취소 기준</div>
+      <div class="cb">
+        <strong style="font-size:16px;color:var(--red);">독후감 제출 1명 이하</strong><br><br>
+        → 트레바리가 자동으로 모임 취소 처리<br><br>
+        취소 시:<br>
+        제출자에게 멤버십 1/4 환불
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">일정 · 장소 변경</div>
+      <div class="cb">
+        <strong>변경 가능</strong><br><br>
+        단톡방에서 투표 : 멤버들에게 변경된 일자 참석 여부<br>
+        → 결과 즉시 팟캐스트(카카오 채널)에 전달<br><br>
+        변경된 모임에 참석 못하는 멤버들은<br>
+        전달 주신 투표 결과 확인하여 환불 처리해 드립니다
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 멤버 문의 -->
+<div id="s8" class="sec">
+  <div class="stitle">파트너가 직접 해결하지 않아도 됩니다</div>
+
+  <div class="card card-o" style="margin-bottom:12px;">
+    <div class="ct ct-o">이런 문의가 오면</div>
+    <div class="cb">환불 요청 · 독후감 제출 오류 · 멤버십 결제 문의 · 앱 이용 방법 등</div>
+  </div>
+
+  <div class="bc">
+    <div class="bt">🚨 이렇게 안내해 주세요</div>
+    <div class="bd">
+      "트레바리와 직접 소통하면 가장 정확한 안내를 받을 수 있어요! 아래 링크로 문의해 주세요 :)"<br><br>
+      → 문의하기 <a href="https://trevari.in/hcSCXF" class="lk">https://trevari.in/hcSCXF</a>
+    </div>
+  </div>
+</div>
+
+<!-- 놀러가기 -->
+<div id="s9" class="sec">
+  <div class="stitle">놀러가기 : 클럽 가입 없이 1회 모임을 체험하는 제도</div>
+
+  <div class="card card-o" style="margin-bottom:12px;">
+    <div class="ct ct-o">놀러가기 쿠폰 발생 시점</div>
+    <div class="cb">파트너: 트레바리에 파트너로 등록된 순간부터 / 멤버: 멤버십을 획득한 순간부터</div>
+  </div>
+
+  <div class="ir"><div class="il">첫 번째 모임</div><div class="iv">기존 멤버 14명 이하 제출 시 → 총 15명까지 참석 가능</div></div>
+  <div class="ir">
+    <div class="il">두 번째 모임부터</div>
+    <div class="iv">기존 멤버 15명 이상이면 선착순 1명만 가능<br><span style="color:var(--gray);font-size:12px;">* 정원 기준으로 시스템 수정 예정</span></div>
+  </div>
+  <div class="ir"><div class="il">성공 여부 확인</div><div class="iv">모임 D-1 14:00에 트레바리가 알림톡으로 성공 여부와 함께 모임 정보 안내</div></div>
+
+  <div class="al al-r" style="margin-top:12px;">⚠️ 놀러가기 멤버는 활동비 정산 기준 인원에서 <strong>제외</strong>됩니다</div>
+</div>
+
+<!-- 활동비 정산 -->
+<div id="s10" class="sec">
+  <div class="stitle">활동비 정산은 정률제로 지급됩니다</div>
+
+  <div class="card card-o" style="margin-bottom:16px;">
+    <div class="ct ct-o">정산 산식</div>
+    <div class="cb" style="font-size:15px;font-weight:700;color:var(--dark);">(총 멤버십 금액 − 환불액) × 0.9 × 정률 − 원천징수</div>
+  </div>
+
+  <div class="g2" style="margin-bottom:14px;">
+    <div class="stat">
+      <div class="stat-n">30%</div>
+      <div class="stat-l">트레바리 제공 공간 (어디트_30)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">40%</div>
+      <div class="stat-l">파트너 직접 대관 공간 (어디트_40)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ct">정산 일정</div>
+    <div class="cb">
+      시즌 종료 1달 뒤 22일 정산서 공유 → 해당 월 말일 지급<br>
+      <span style="color:var(--red);">모임 불참 시 미지급</span>
+    </div>
+  </div>
+</div>
+
+<!-- 3가지 채널 -->
+<div id="s11" class="sec">
+  <div class="stitle">활용하세요!</div>
+
+  <div class="g3">
+    <div class="cc">
+      <div class="cc-hd" style="background:var(--orange);">01 파트너 페이지</div>
+      <div class="cc-bd">
+        <div style="font-size:11px;margin-bottom:8px;"><a href="https://partners.trevari.co.kr/" target="_blank" class="lk">(웹사이트)</a></div>
+        출석 체크 · 발제문 제출<br>
+        피드백 작성 · 현원 확인
+      </div>
+    </div>
+    <div class="cc">
+      <div class="cc-hd" style="background:var(--orange);">02 파트너 매뉴얼</div>
+      <div class="cc-bd">
+        <div style="font-size:11px;margin-bottom:8px;"><a href="https://outrageous-relative-b6b.notion.site/2fd64136c38780a4b58bca52fae44208?pvs=143" target="_blank" class="lk">(노션)</a></div>
+        운영 관련 상세 안내<br>
+        궁금한 내용 검색 가능
+      </div>
+    </div>
+    <div class="cc" style="border:2px solid var(--orange);">
+      <div class="cc-hd" style="background:var(--orange-d);">03 팟캐스트</div>
+      <div class="cc-bd">
+        <div style="color:var(--orange);font-size:11px;margin-bottom:8px;">카카오 채널 · 화~금 10~18시</div>
+        직접 문의 · 실시간 상담<br>
+        키트 요청 · 일정 변경 알림
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>TREVARI — 어디서든 파트너 온보딩 · PART 3</footer>
+
+<script>
+function go(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(b => b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+</script>
+</body>
+</html>
